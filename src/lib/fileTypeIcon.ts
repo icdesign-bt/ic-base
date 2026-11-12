@@ -1,41 +1,42 @@
+import { publicAsset } from '@/lib/publicAsset';
 import type { FileType } from '@/types/knowledge';
 
 /** Fluent / Material-style file glyphs (локальные SVG в public/file-icons). */
 export function fileTypeIconSrc(kind: FileType): string {
   switch (kind) {
     case 'pdf':
-      return '/file-icons/pdf.svg';
+      return publicAsset('file-icons/pdf.svg');
     case 'docx':
-      return '/file-icons/docx.svg';
+      return publicAsset('file-icons/docx.svg');
     case 'xlsx':
-      return '/file-icons/xlsx.svg';
+      return publicAsset('file-icons/xlsx.svg');
     case 'pptx':
-      return '/file-icons/pptx.svg';
+      return publicAsset('file-icons/pptx.svg');
     case 'image':
-      return '/file-icons/image.svg';
+      return publicAsset('file-icons/image.svg');
     case 'txt':
-      return '/file-icons/txt.svg';
+      return publicAsset('file-icons/txt.svg');
     case 'md':
-      return '/file-icons/md.svg';
+      return publicAsset('file-icons/md.svg');
     default:
-      return '/file-icons/txt.svg';
+      return publicAsset('file-icons/txt.svg');
   }
 }
 
-export const FOLDER_ICON_SRC = '/file-icons/folder.svg';
+export const FOLDER_ICON_SRC = publicAsset('file-icons/folder.svg');
 
 /** Логотипы корневых папок управлений (28×28 в карточках). */
 const MANAGEMENT_FOLDER_ICONS: Record<string, string> = {
-  'fld-bigdata': '/folder-icons/bigdata.png',
-  'fld-analytics': '/folder-icons/analytics.png',
-  'fld-modeling': '/folder-icons/modeling.png',
-  'fld-consulting': '/folder-icons/consulting.png',
-  'fld-dev': '/folder-icons/development.png',
-  'fld-design': '/folder-icons/design.png',
-  'fld-orgdev': '/folder-icons/orgdev.png',
-  'fld-apparatus': '/folder-icons/apparatus.png',
-  'fld-afanasiev': '/folder-icons/afanasiev.png',
-  'fld-initiatives': '/folder-icons/initiatives.png',
+  'fld-bigdata': publicAsset('folder-icons/bigdata.png'),
+  'fld-analytics': publicAsset('folder-icons/analytics.png'),
+  'fld-modeling': publicAsset('folder-icons/modeling.png'),
+  'fld-consulting': publicAsset('folder-icons/consulting.png'),
+  'fld-dev': publicAsset('folder-icons/development.png'),
+  'fld-design': publicAsset('folder-icons/design.png'),
+  'fld-orgdev': publicAsset('folder-icons/orgdev.png'),
+  'fld-apparatus': publicAsset('folder-icons/apparatus.png'),
+  'fld-afanasiev': publicAsset('folder-icons/afanasiev.png'),
+  'fld-initiatives': publicAsset('folder-icons/initiatives.png'),
 };
 
 export function folderIconSrc(folderId: string): string {

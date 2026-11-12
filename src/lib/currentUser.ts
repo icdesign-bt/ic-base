@@ -1,3 +1,5 @@
+import { publicAsset } from '@/lib/publicAsset';
+
 /** Демо-пользователь текущего сеанса. */
 export const CURRENT_USER = {
   id: 'pers-kostya',
@@ -6,6 +8,6 @@ export const CURRENT_USER = {
   surname: 'Курылев',
   email: 'kurylevkv@transport.mos.ru',
   initials: 'КК',
-  avatarSrc: '/brand/avatar-kurylev.jpg',
+  avatarSrc: publicAsset('brand/avatar-kurylev.jpg'),
   roleLabel: 'Продуктовый дизайн',
 } as const;
