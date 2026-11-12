@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 720px; height: 540px; background: #e8eaed; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
+    .frame {
+      width: 640px; height: 460px; background: #fff;
+      box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px rgba(60,64,67,.15);
+      padding: 18px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .map {
+      flex: 1; border: 1px solid #dadce0; border-radius: 8px; background:
+        linear-gradient(#eef1f5 1px, transparent 1px) 0 0 / 40px 40px,
+        linear-gradient(90deg, #eef1f5 1px, transparent 1px) 0 0 / 40px 40px,
+        #f8f9fa;
+      position: relative; overflow: hidden;
+    }
+    .zone {
+      position: absolute; border-radius: 8px; border: 2px solid rgba(124,58,237,.55);
+      background: rgba(124,58,237,.12); color: #5b2d9c; font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px;
+    }
+    .a { left: 36px; top: 40px; width: 150px; height: 90px; }
+    .b { left: 220px; top: 40px; width: 170px; height: 90px; }
+    .c { left: 420px; top: 40px; width: 150px; height: 90px; }
+    .d { left: 36px; top: 180px; width: 250px; height: 110px; }
+    .e { left: 320px; top: 180px; width: 250px; height: 110px; }
+    .stage {
+      left: 170px; top: 330px; width: 260px; height: 56px;
+      border-color: rgba(24,128,56,.5); background: rgba(24,128,56,.12); color: #137333;
+    }
+    .caption { font-size: 11px; color: #5f6368; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="map">
+      <div class="zone a">Big Data</div>
+      <div class="zone b">Аналитика</div>
+      <div class="zone c">AI-хаб</div>
+      <div class="zone d">База знаний 2.0</div>
+      <div class="zone e">Умный поиск</div>
+      <div class="zone stage">Сцена / открытие</div>
+    </div>
+    <div class="caption">Схема площадки · черновик · Инновационная столица 2027</div>
+  </div>
+</body>
+</html>

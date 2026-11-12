@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 720px; height: 480px; background: #e8eaed; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
+    .slide {
+      width: 640px; height: 400px; background: #fff;
+      box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px rgba(60,64,67,.15);
+      display: grid; grid-template-columns: 220px 1fr; overflow: hidden;
+    }
+    .rail {
+      background: linear-gradient(165deg, #5b2d9c 0%, #7c3aed 55%, #a78bfa 100%);
+      color: #fff; padding: 36px 24px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .rail .eyebrow { font-size: 11px; opacity: .85; letter-spacing: .04em; text-transform: uppercase; }
+    .rail h1 { font-size: 26px; font-weight: 700; line-height: 1.2; }
+    .rail p { font-size: 12px; line-height: 1.45; opacity: .92; margin-top: auto; }
+    .content { padding: 36px 32px; color: #202124; }
+    .content h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .cards { display: grid; gap: 10px; }
+    .card {
+      border: 1px solid #dadce0; border-radius: 8px; padding: 10px 12px; background: #f8f9fa;
+    }
+    .card strong { display: block; font-size: 12px; margin-bottom: 2px; }
+    .card span { font-size: 11px; color: #5f6368; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="rail">
+      <div class="eyebrow">Инновационный центр</div>
+      <h1>Инновационная столица 2027</h1>
+      <p>Гостевая презентация · февраль 2027<br />Что покажем и зачем приходить</p>
+    </div>
+    <div class="content">
+      <h2>На витрине</h2>
+      <div class="cards">
+        <div class="card">
+          <strong>База знаний 2.0</strong>
+          <span>Единый поиск по документам, чат с источниками и знания из встреч</span>
+        </div>
+        <div class="card">
+          <strong>Умный поиск и AI-хаб</strong>
+          <span>Смысловой поиск и сценарии помощника на корпоративном корпусе</span>
+        </div>
+        <div class="card">
+          <strong>Карта стендов</strong>
+          <span>Продукты ИЦ, ответственные и статус готовности площадки</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+:root {
+  /* Adaptive: Material-ish breakpoints + Apple safe areas */
+  --bp-phone: 600px;
+  --bp-tablet: 1024px;
+  --touch-min: 44px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  /* Отступы оболочки: как у умного помощника */
+  --kb-shell-gutter-x: 24px;
+  --kb-content-pad-y: 28px;
+  --kb-block-gap: 28px;
+
+  /* Fallbacks до применения skin-glass */
+  --floating-glass-bg: rgba(255, 255, 255, 0.72);
+  --floating-glass-border: rgba(255, 255, 255, 0.65);
+  --floating-glass-blur: blur(20px) saturate(1.2);
+  --floating-glass-shadow:
+    0 4px 24px rgba(15, 15, 26, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --app-bg: #eef2ff;
+  --app-surface: rgba(255, 255, 255, 0.72);
+  --app-border: rgba(15, 23, 42, 0.08);
+  --app-text: #0f172a;
+  --app-muted: #64748b;
+  --app-hover: rgba(15, 23, 42, 0.04);
+  --app-hover-strong: rgba(15, 23, 42, 0.08);
+  --app-link: var(--primary-main, #7c28e3);
+  --app-scrim: rgba(15, 23, 42, 0.35);
+  --app-chip-bg: rgba(15, 23, 42, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-family-sans, "Moscow Sans W", system-ui, sans-serif);
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+/* Наследуем Moscow Sans на нативные контролы и корневой контейнер */
+button,
+input,
+textarea,
+select,
+#root {
+  font-family: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--touch-min);
+  padding: calc(12px + var(--safe-top)) calc(20px + var(--safe-right)) 12px
+    calc(20px + var(--safe-left));
+  background: var(--floating-glass-bg);
+  backdrop-filter: var(--floating-glass-blur);
+  -webkit-backdrop-filter: var(--floating-glass-blur);
+  border-bottom: 1px solid var(--app-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.proto-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  font-size: 12px;
+  line-height: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--app-chip-bg);
+  color: var(--app-muted);
+}
+
+.app-header__role {
+  min-width: min(240px, 46vw);
+}
+
+.app-main {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  padding: 48px calc(20px + var(--safe-right)) calc(48px + var(--safe-bottom))
+    calc(20px + var(--safe-left));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.app-main--wide {
+  width: min(920px, 100%);
+}
+
+.phase1-card {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phase1-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--app-muted);
+}
+
+.phase1-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: var(--touch-min);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chip--active {
+  border-color: color-mix(in srgb, var(--app-text) 35%, transparent);
+  background: var(--app-hover-strong);
+}
+
+.phase1-hits {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase1-hits .meta {
+  color: var(--app-muted);
+  font-size: 13px;
+}
+
+.phase1-hits .snippet {
+  margin-top: 4px;
+  color: var(--app-text);
+  font-size: 14px;
+}
+
+.preview-block {
+  white-space: pre-wrap;
+  font-size: 13px;
+  background: var(--app-hover);
+  padding: 10px;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+@media (max-width: 599px) {
+  .app-main {
+    padding-top: 28px;
+  }
+
+  .app-header__brand {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.phase0-checklist {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: var(--app-muted);
+}
+
+.phase0-checklist code {
+  font-size: 0.95em;
+}
+
+.glass-panel {
+  background: var(--floating-glass-bg);
+  backdrop-filter: var(--floating-glass-blur);
+  -webkit-backdrop-filter: var(--floating-glass-blur);
+  border: 1px solid var(--floating-glass-border);
+  box-shadow: var(--floating-glass-shadow);
+  border-radius: 16px;
+}

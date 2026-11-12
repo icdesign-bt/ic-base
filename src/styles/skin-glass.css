@@ -1,0 +1,129 @@
+/* Glass skin + ambient background — как design-crm/src/styles/skin-glass.css */
+
+[data-skin='glass'] {
+  --floating-glass-bg: rgba(255, 255, 255, 0.72);
+  --floating-glass-border: rgba(255, 255, 255, 0.65);
+  --floating-glass-blur: blur(20px) saturate(1.2);
+  --floating-glass-shadow:
+    0 4px 24px rgba(15, 15, 26, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  --surfaces-background: transparent;
+  --surfaces-surface-1: rgba(255, 255, 255, 0.58);
+  --surfaces-surface-2: rgba(255, 255, 255, 0.38);
+  --surfaces-surface-hover: rgba(255, 255, 255, 0.72);
+  --outlines-border: rgba(255, 255, 255, 0.55);
+  --primary-main: #7c3aed;
+  --primary-main-hover: #9333ea;
+  --primary-tonal: rgba(124, 58, 237, 0.12);
+  --primary-tonal-hover: rgba(124, 58, 237, 0.18);
+  --text-text-primary: #6d28d9;
+  --text-text-hover: #8b5cf6;
+  --surface-card: rgba(255, 255, 255, 0.72);
+  --surface-hover: rgba(124, 58, 237, 0.08);
+  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(124, 58, 237, 0.07);
+  --glass-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 16px 48px rgba(124, 58, 237, 0.1);
+  --glass-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.06), 0 24px 64px rgba(124, 58, 237, 0.14);
+  --glass-radius: 20px;
+  --glass-blur: blur(20px) saturate(180%);
+
+  --app-bg: #eef2ff;
+  --app-surface: var(--surface-card);
+  --app-border: rgba(15, 23, 42, 0.08);
+  --app-text: var(--text-main-on-surface, #0f172a);
+  --app-muted: var(--text-secondary-on-surface, #64748b);
+  --app-hover: rgba(15, 23, 42, 0.04);
+  --app-hover-strong: rgba(15, 23, 42, 0.08);
+  --app-link: var(--primary-main, #7c28e3);
+  --app-scrim: rgba(15, 23, 42, 0.35);
+  --app-chip-bg: rgba(15, 23, 42, 0.06);
+}
+
+[data-skin='glass'][data-theme='dark'] {
+  color-scheme: dark;
+  --floating-glass-bg: rgba(28, 24, 40, 0.48);
+  --floating-glass-border: rgba(255, 255, 255, 0.14);
+  --floating-glass-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --surfaces-surface-1: color-mix(in srgb, var(--surfaces-surface-gradient-start, #312c37) 82%, transparent);
+  --surfaces-surface-2: color-mix(in srgb, var(--surfaces-surface-gradient-start, #312c37) 64%, transparent);
+  --surfaces-surface-hover: color-mix(in srgb, var(--surfaces-surface-gradient-start, #312c37) 92%, transparent);
+  --outlines-border: rgba(255, 255, 255, 0.16);
+  --surface-card: color-mix(in srgb, var(--surfaces-surface-gradient-start, #312c37) 90%, transparent);
+  --surface-hover: color-mix(in srgb, var(--primary-main) 14%, transparent);
+  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2), 0 8px 24px color-mix(in srgb, var(--primary-main) 18%, transparent);
+  --glass-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 16px 48px color-mix(in srgb, var(--primary-main) 22%, transparent);
+  --glass-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3), 0 24px 64px color-mix(in srgb, var(--primary-main) 28%, transparent);
+
+  --app-bg: #100f12;
+  --app-surface: var(--surface-card);
+  --app-border: rgba(255, 255, 255, 0.12);
+  --app-text: var(--text-main-on-surface, #f5f3ff);
+  --app-muted: var(--text-secondary-on-surface, rgba(255, 255, 255, 0.64));
+  --app-hover: rgba(255, 255, 255, 0.06);
+  --app-hover-strong: rgba(255, 255, 255, 0.1);
+  --app-link: #a78bfa;
+  --app-scrim: rgba(0, 0, 0, 0.55);
+  --app-chip-bg: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Ambient background (design-crm) ─────────────────────────────── */
+
+[data-skin='glass'] body {
+  position: relative;
+  background: #eef2ff;
+  color: var(--app-text);
+}
+
+[data-skin='glass'][data-theme='dark'] body {
+  background: #100f12;
+}
+
+[data-skin='glass'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 15%, rgba(124, 58, 237, 0.32), transparent 70%),
+    radial-gradient(ellipse 65% 50% at 92% 85%, rgba(59, 130, 246, 0.28), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 55% 45%, rgba(236, 72, 153, 0.14), transparent 70%),
+    linear-gradient(145deg, #eef2ff 0%, #f5f3ff 35%, #fdf4ff 65%, #eff6ff 100%);
+}
+
+[data-skin='glass'][data-theme='dark'] body::before {
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 15%, rgba(124, 58, 237, 0.22), transparent 70%),
+    radial-gradient(ellipse 65% 50% at 92% 85%, rgba(59, 130, 246, 0.18), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 55% 45%, rgba(236, 72, 153, 0.1), transparent 70%),
+    linear-gradient(145deg, #100f12 0%, #19141e 40%, #100f12 100%);
+}
+
+[data-skin='glass'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+[data-skin='glass'][data-theme='dark'] body::after {
+  opacity: 0.18;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-skin='glass'] .glass-panel {
+    background: rgba(255, 255, 255, 0.94);
+  }
+
+  [data-skin='glass'][data-theme='dark'] .glass-panel {
+    background: rgba(28, 24, 40, 0.92);
+  }
+}
