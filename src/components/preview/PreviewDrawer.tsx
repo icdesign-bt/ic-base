@@ -223,139 +223,142 @@ export function PreviewDrawer() {
         />
       ) : null}
 
-      <div
-        className={`kb-preview${slideClass}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        onTouchStart={onSwipeTouchStart}
-        onTouchEnd={onSwipeTouchEnd}
-      >
-        <header className="kb-preview__head">
-          <div className="kb-preview__head-main">
-            <FileTypeGlyph fileType={previewDoc.fileType} className="kb-preview__file-glyph" />
-            <div className="kb-preview__head-copy">
-              <Text as="h2" id={titleId} variant="subtitle-xlg-bold" className="kb-preview__title">
-                {previewDoc.title}
-              </Text>
-              <Text as="p" variant="body-sm" color="secondary" className="kb-preview__facts">
-                {facts}
-                {canStep ? (
-                  <span className="kb-preview__facts-pos">
-                    {' '}
-                    · {queueIndex + 1} из {previewQueue.length}
-                  </span>
-                ) : null}
-              </Text>
-            </div>
-          </div>
-          <div className="kb-preview__head-actions">
-            <FavoriteStar
-              active={fav}
-              label={fav ? 'Убрать из избранного' : 'Добавить в избранное'}
-              onToggle={() => toggleDocFavorite(previewDoc.id)}
-            />
-            <Button
-              className="kb-preview__action-btn"
-              size="md"
-              variant="contained"
-              color="primary"
-              startIcon={<Icon path="System Devices/DownloadSimple" size={18} weight="regular" />}
-              onClick={() => window.alert('Мок: скачивание недоступно в образе')}
-            >
-              Скачать
-            </Button>
-            <Button
-              className="kb-preview__action-btn"
-              size="md"
-              variant="tonal"
-              color="primary"
-              startIcon={
-                <Icon path="Arrows & Directions/ArrowSquareOut" size={18} weight="regular" />
-              }
-              onClick={() => window.alert('Мок: полное открытие — в следующем контуре')}
-            >
-              Открыть
-            </Button>
-            <Button
-              className="kb-preview__access-btn"
-              size="md"
-              variant="outlined"
-              color="neutral"
-              startIcon={<Icon path="System Devices/GearSix" size={18} weight="regular" />}
-              onClick={() => window.alert('Мок: настройки доступа')}
-              aria-label="Настройки доступа"
-            >
-              <span className="kb-preview__access-label">Настройки доступа</span>
-            </Button>
-          </div>
-          <IconButton
-            className="kb-preview__close"
-            aria-label="Закрыть"
-            size="md"
-            variant="text"
-            color="neutral"
-            icon={<Icon path="Math & Finances/X" size={18} weight="regular" />}
-            onClick={requestClose}
-          />
-        </header>
-
-        <div className="kb-preview__stage">
-          <DocumentViewer key={previewDoc.id} doc={previewDoc} />
-        </div>
-
-        <footer className="kb-preview__foot">
-          {canStep ? (
-            <div className="kb-preview__dots" role="tablist" aria-label="Файлы в превью">
-              {previewQueue.map((doc, i) => (
-                <button
-                  key={doc.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === queueIndex}
-                  aria-label={doc.title}
-                  className={`kb-preview__dot${i === queueIndex ? ' is-active' : ''}`}
-                  disabled={slideBusy}
-                  onClick={() => goToIndex(i)}
-                />
-              ))}
-            </div>
-          ) : null}
-          <div className="kb-preview__meta">
-            {author ? (
-              <div className="kb-preview__meta-person">
-                <PersonAvatar person={author} size="sm" />
-                <div className="kb-preview__meta-text">
-                  <Text as="p" variant="label-sm-bold" className="kb-preview__meta-label">
-                    Создал
-                  </Text>
-                  <Text as="p" variant="body-sm">
-                    {author.name}
-                    <span className="kb-preview__meta-muted"> · {author.roleLabel}</span>
-                  </Text>
-                </div>
+      <div className="kb-preview-frame">
+        <div
+          className={`kb-preview${slideClass}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          onTouchStart={onSwipeTouchStart}
+          onTouchEnd={onSwipeTouchEnd}
+        >
+          <header className="kb-preview__head">
+            <div className="kb-preview__head-main">
+              <FileTypeGlyph fileType={previewDoc.fileType} className="kb-preview__file-glyph" />
+              <div className="kb-preview__head-copy">
+                <Text as="h2" id={titleId} variant="subtitle-xlg-bold" className="kb-preview__title">
+                  {previewDoc.title}
+                </Text>
+                <Text as="p" variant="body-sm" color="secondary" className="kb-preview__facts">
+                  {facts}
+                  {canStep ? (
+                    <span className="kb-preview__facts-pos">
+                      {' '}
+                      · {queueIndex + 1} из {previewQueue.length}
+                    </span>
+                  ) : null}
+                </Text>
               </div>
-            ) : null}
-            <div className="kb-preview__meta-text">
-              <Text as="p" variant="label-sm-bold" className="kb-preview__meta-label">
-                Загрузил
-              </Text>
-              <Text as="p" variant="body-sm">
-                {formatDocDate(meta.uploadedAt)}
-              </Text>
             </div>
-            {meta.wasUpdated ? (
+            <div className="kb-preview__head-actions">
+              <FavoriteStar
+                active={fav}
+                label={fav ? 'Убрать из избранного' : 'Добавить в избранное'}
+                onToggle={() => toggleDocFavorite(previewDoc.id)}
+              />
+              <Button
+                className="kb-preview__action-btn"
+                size="md"
+                variant="contained"
+                color="primary"
+                startIcon={<Icon path="System Devices/DownloadSimple" size={18} weight="regular" />}
+                onClick={() => window.alert('Мок: скачивание недоступно в образе')}
+              >
+                Скачать
+              </Button>
+              <Button
+                className="kb-preview__action-btn"
+                size="md"
+                variant="tonal"
+                color="primary"
+                startIcon={
+                  <Icon path="Arrows & Directions/ArrowSquareOut" size={18} weight="regular" />
+                }
+                onClick={() => window.alert('Мок: полное открытие — в следующем контуре')}
+              >
+                Открыть
+              </Button>
+              <Button
+                className="kb-preview__access-btn"
+                size="md"
+                variant="outlined"
+                color="neutral"
+                startIcon={<Icon path="System Devices/GearSix" size={18} weight="regular" />}
+                onClick={() => window.alert('Мок: настройки доступа')}
+                aria-label="Настройки доступа"
+              >
+                <span className="kb-preview__access-label">Настройки доступа</span>
+              </Button>
+            </div>
+            <IconButton
+              className="kb-preview__close"
+              aria-label="Закрыть"
+              size="md"
+              variant="text"
+              color="neutral"
+              icon={<Icon path="Math & Finances/X" size={18} weight="regular" />}
+              onClick={requestClose}
+            />
+          </header>
+
+          <div className="kb-preview__stage">
+            <DocumentViewer key={previewDoc.id} doc={previewDoc} />
+          </div>
+
+          <footer className="kb-preview__foot">
+            <div className="kb-preview__meta">
+              {author ? (
+                <div className="kb-preview__meta-person">
+                  <PersonAvatar person={author} size="sm" />
+                  <div className="kb-preview__meta-text">
+                    <Text as="p" variant="label-sm-bold" className="kb-preview__meta-label">
+                      Создал
+                    </Text>
+                    <Text as="p" variant="body-sm">
+                      {author.name}
+                      <span className="kb-preview__meta-muted"> · {author.roleLabel}</span>
+                    </Text>
+                  </div>
+                </div>
+              ) : null}
               <div className="kb-preview__meta-text">
                 <Text as="p" variant="label-sm-bold" className="kb-preview__meta-label">
-                  Обновил
+                  Загрузил
                 </Text>
                 <Text as="p" variant="body-sm">
-                  {formatDocDate(meta.updatedAt)}
+                  {formatDocDate(meta.uploadedAt)}
                 </Text>
               </div>
-            ) : null}
+              {meta.wasUpdated ? (
+                <div className="kb-preview__meta-text">
+                  <Text as="p" variant="label-sm-bold" className="kb-preview__meta-label">
+                    Обновил
+                  </Text>
+                  <Text as="p" variant="body-sm">
+                    {formatDocDate(meta.updatedAt)}
+                  </Text>
+                </div>
+              ) : null}
+            </div>
+          </footer>
+        </div>
+
+        {canStep ? (
+          <div className="kb-preview__dots" role="tablist" aria-label="Файлы в превью">
+            {previewQueue.map((doc, i) => (
+              <button
+                key={doc.id}
+                type="button"
+                role="tab"
+                aria-selected={i === queueIndex}
+                aria-label={doc.title}
+                className={`kb-preview__dot${i === queueIndex ? ' is-active' : ''}`}
+                disabled={slideBusy}
+                onClick={() => goToIndex(i)}
+              />
+            ))}
           </div>
-        </footer>
+        ) : null}
       </div>
 
       {canStep ? (
