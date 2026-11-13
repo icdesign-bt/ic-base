@@ -10,6 +10,7 @@ import { useApp } from '@/state/AppContext';
 
 const CLOSE_MS = 500;
 const STEP_MS = 160;
+const SWIPE_MIN_PX = 56;
 
 type SlidePhase =
   | 'idle'
@@ -23,6 +24,7 @@ export function PreviewDrawer() {
   const {
     previewDoc,
     previewQueue,
+    openPreview,
     stepPreview,
     closePreview,
     isDocFavorite,
@@ -35,6 +37,7 @@ export function PreviewDrawer() {
   const stepTimer = useRef<number | null>(null);
   const hasOpened = useRef(false);
   const stepping = useRef(false);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
   const requestClose = useCallback(() => {
     if (stepping.current) return;
@@ -74,18 +77,16 @@ export function PreviewDrawer() {
   const canNext = canStep && queueIndex >= 0 && queueIndex < previewQueue.length - 1;
   const slideBusy = slide !== 'idle';
 
-  const requestStep = useCallback(
-    (delta: -1 | 1) => {
-      if (stepping.current || !open) return;
-      if (delta < 0 && !canPrev) return;
-      if (delta > 0 && !canNext) return;
+  const animateToDoc = useCallback(
+    (delta: -1 | 1, apply: () => void) => {
+      if (stepping.current || !open) return false;
 
       stepping.current = true;
       setSlide(delta > 0 ? 'exit-left' : 'exit-right');
 
       if (stepTimer.current) window.clearTimeout(stepTimer.current);
       stepTimer.current = window.setTimeout(() => {
-        stepPreview(delta);
+        apply();
         setSlide(delta > 0 ? 'enter-right' : 'enter-left');
 
         window.requestAnimationFrame(() => {
@@ -99,8 +100,54 @@ export function PreviewDrawer() {
           });
         });
       }, STEP_MS);
+      return true;
     },
-    [open, canPrev, canNext, stepPreview],
+    [open],
+  );
+
+  const requestStep = useCallback(
+    (delta: -1 | 1) => {
+      if (delta < 0 && !canPrev) return;
+      if (delta > 0 && !canNext) return;
+      animateToDoc(delta, () => stepPreview(delta));
+    },
+    [canPrev, canNext, animateToDoc, stepPreview],
+  );
+
+  const goToIndex = useCallback(
+    (nextIndex: number) => {
+      if (nextIndex === queueIndex || nextIndex < 0 || nextIndex >= previewQueue.length) return;
+      const target = previewQueue[nextIndex];
+      if (!target) return;
+      const delta: -1 | 1 = nextIndex > queueIndex ? 1 : -1;
+      animateToDoc(delta, () => openPreview(target, previewQueue));
+    },
+    [queueIndex, previewQueue, animateToDoc, openPreview],
+  );
+
+  const onSwipeTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement | null)?.closest('[data-preview-swipe-self]')) {
+      swipeStart.current = null;
+      return;
+    }
+    const t = e.changedTouches[0];
+    if (!t) return;
+    swipeStart.current = { x: t.clientX, y: t.clientY };
+  }, []);
+
+  const onSwipeTouchEnd = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      const start = swipeStart.current;
+      swipeStart.current = null;
+      if (!start || !canStep) return;
+      const t = e.changedTouches[0];
+      if (!t) return;
+      const dx = t.clientX - start.x;
+      const dy = t.clientY - start.y;
+      if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) <= Math.abs(dy)) return;
+      requestStep(dx < 0 ? 1 : -1);
+    },
+    [canStep, requestStep],
   );
 
   useEffect(() => {
@@ -181,6 +228,8 @@ export function PreviewDrawer() {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        onTouchStart={onSwipeTouchStart}
+        onTouchEnd={onSwipeTouchEnd}
       >
         <header className="kb-preview__head">
           <div className="kb-preview__head-main">
@@ -256,6 +305,22 @@ export function PreviewDrawer() {
         </div>
 
         <footer className="kb-preview__foot">
+          {canStep ? (
+            <div className="kb-preview__dots" role="tablist" aria-label="Файлы в превью">
+              {previewQueue.map((doc, i) => (
+                <button
+                  key={doc.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === queueIndex}
+                  aria-label={doc.title}
+                  className={`kb-preview__dot${i === queueIndex ? ' is-active' : ''}`}
+                  disabled={slideBusy}
+                  onClick={() => goToIndex(i)}
+                />
+              ))}
+            </div>
+          ) : null}
           <div className="kb-preview__meta">
             {author ? (
               <div className="kb-preview__meta-person">

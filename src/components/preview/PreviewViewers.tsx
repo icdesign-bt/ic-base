@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Icon, IconButton, Text } from 'ic-kit';
 import { filePreviewSrc, pptxSlidePreviewSrc } from '@/lib/filePreview';
 import type { Document } from '@/types/knowledge';
 
 type Props = { doc: Document };
+
+const SWIPE_MIN_PX = 56;
 
 type MockSheet = {
   name: string;
@@ -146,10 +148,40 @@ export function PptxViewer({ doc }: Props) {
   const [index, setIndex] = useState(0);
   const total = Math.max(slides.length, 1);
   const current = slides[index] ?? 'Слайд';
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+
+  const onTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const t = e.changedTouches[0];
+    if (!t) return;
+    swipeStart.current = { x: t.clientX, y: t.clientY };
+  }, []);
+
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      const start = swipeStart.current;
+      swipeStart.current = null;
+      if (!start) return;
+      const t = e.changedTouches[0];
+      if (!t) return;
+      const dx = t.clientX - start.x;
+      const dy = t.clientY - start.y;
+      if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) <= Math.abs(dy)) return;
+      setIndex((i) => {
+        if (dx < 0) return Math.min(total - 1, i + 1);
+        return Math.max(0, i - 1);
+      });
+    },
+    [total],
+  );
 
   return (
-    <div className="kb-preview-viewer kb-preview-viewer--pptx">
-      <div className="kb-preview-viewer__canvas" aria-live="polite">
+    <div className="kb-preview-viewer kb-preview-viewer--pptx" data-preview-swipe-self>
+      <div
+        className="kb-preview-viewer__canvas"
+        aria-live="polite"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         <img
           className="kb-preview-viewer__thumb"
           src={pptxSlidePreviewSrc(index)}
@@ -170,6 +202,7 @@ export function PptxViewer({ doc }: Props) {
       </div>
       <div className="kb-preview-viewer__nav">
         <IconButton
+          className="kb-preview-viewer__nav-arrow"
           aria-label="Предыдущий слайд"
           size="sm"
           variant="tonal"
@@ -193,6 +226,7 @@ export function PptxViewer({ doc }: Props) {
           ))}
         </div>
         <IconButton
+          className="kb-preview-viewer__nav-arrow"
           aria-label="Следующий слайд"
           size="sm"
           variant="tonal"
