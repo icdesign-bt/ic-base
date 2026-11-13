@@ -207,6 +207,7 @@ export function PreviewDrawer() {
               onToggle={() => toggleDocFavorite(previewDoc.id)}
             />
             <Button
+              className="kb-preview__action-btn"
               size="md"
               variant="contained"
               color="primary"
@@ -216,6 +217,7 @@ export function PreviewDrawer() {
               Скачать
             </Button>
             <Button
+              className="kb-preview__action-btn"
               size="md"
               variant="tonal"
               color="primary"
@@ -227,23 +229,26 @@ export function PreviewDrawer() {
               Открыть
             </Button>
             <Button
+              className="kb-preview__access-btn"
               size="md"
               variant="outlined"
               color="neutral"
               startIcon={<Icon path="System Devices/GearSix" size={18} weight="regular" />}
               onClick={() => window.alert('Мок: настройки доступа')}
+              aria-label="Настройки доступа"
             >
-              Настройки доступа
+              <span className="kb-preview__access-label">Настройки доступа</span>
             </Button>
-            <IconButton
-              aria-label="Закрыть"
-              size="md"
-              variant="text"
-              color="neutral"
-              icon={<Icon path="Math & Finances/X" size={18} weight="regular" />}
-              onClick={requestClose}
-            />
           </div>
+          <IconButton
+            className="kb-preview__close"
+            aria-label="Закрыть"
+            size="md"
+            variant="text"
+            color="neutral"
+            icon={<Icon path="Math & Finances/X" size={18} weight="regular" />}
+            onClick={requestClose}
+          />
         </header>
 
         <div className="kb-preview__stage">
